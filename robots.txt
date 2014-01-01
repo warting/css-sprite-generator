@@ -1,0 +1,11 @@
+User-agent: *
+
+Disallow: /canvas
+Disallow: /mycanvas
+Disallow: /download
+Disallow: /postmsg
+
+Disallow: /canvas.html
+Disallow: /mycanvas.html
+Disallow: /download.html
+Disallow: /postmsg.html
