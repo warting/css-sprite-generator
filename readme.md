@@ -1,6 +1,6 @@
 # Installing and generating the html files
 
-1. git checkout https://github.com/warting/css-sprite-generator.git
+1. git clone https://github.com/warting/css-sprite-generator.git
 2. cd css-sprite-generator
 3. npm install
 4. grunt build
