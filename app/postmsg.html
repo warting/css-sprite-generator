@@ -1,0 +1,13 @@
+<script>
+	window.addEventListener("message", function(event){
+		var data = JSON.parse(event.data);
+
+		if(data.action && data.action == "insertAndEdit"){
+			console.log(data);
+			localStorage.lastUUID = data.Sprite.uuid;
+			localStorage.setItem(data.Sprite.uuid, JSON.stringify(data.Sprite))
+			top.location = location.href + "/../canvas.php";
+		}
+
+	});
+</script>

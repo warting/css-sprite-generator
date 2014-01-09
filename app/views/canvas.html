@@ -1,0 +1,138 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+	</div>
+	<div class="navbar-collapse collapse">
+		<ul class="nav navbar-nav">
+			<li><a ng-click="Main.newUUID()">New sprite</a></li>
+			<li><a href="/mycanvas">Open</a></li>
+			<li><a ng-click="Main.deleteUUID(Main.activeUUID); Main.newUUID()">Delete</a></li>
+				<!-- <li class="dropdown">
+					<a href="#" dropdown-toggle>File&nbsp;<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a ng-click="Navbar.newsprite()" href="#">New sprite</a></li>
+						<li><a href="/mycanvas">Open...</a></li>
+						<li class="divider"></li>
+						<li class="dropdown-header">Nav header</li>
+						<li></li>
+						<li><a href="/download">Download</a></li>
+						<li><a ng-click="Navbar.deleteSprite()" href="#">Delete</a></li>
+					</ul>
+				</li>
+			-->
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li>
+				<a class="navbar-brand" href="/">Css Sprite Generator</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div id="app" ng-class="{hover:!Sprite.json.datalessJSON.objects.length}">
+	<div id="workspace">
+
+		<div ng-change="Sprite.onFileSelect();" id="dropzone" accept="image/*" wis-file multiple ng-model="Sprite.files"></div>
+
+		<div id="excanvas" ng-style="{width: Sprite.json.width+'px', height: Sprite.json.height+'px'}">
+			<canvas object="Sprite.object" wis-sprite="Main.activeJson" sprite="Sprite.json"></canvas>
+			<span id="scale" title="Click and drag to scale"></span>
+		</div>
+
+	</div>
+	<div id="sidebar">
+		<div id="styles">
+			<details open>
+				<summary>Info</summary>
+				<p>dimension: {{Sprite.json.width}}x{{Sprite.json.height}}<br>
+				pixels: {{Sprite.json.width * Sprite.json.height}}<br>
+				png-size: {{Sprite.json.size}} ({{Sprite.json.size | filesize}})</p>
+			</details>
+
+			<hr>
+
+			<details ng-class="Sprite.open" open>
+				<summary>Defaults</summary>
+
+
+				<!-- <div class="form-group">
+					<label for="prefix">Quality</label> <small>({{Sprite.json.quality * 100 | number:0}})</small>
+					<input id="prefix" type="range" class="form-control" min="0" max="1" step=".01" ng-model="Sprite.json.quality">
+				</div> -->
+				<!-- <div class="form-group">
+					<label for="prefix">Class Prefix</label>
+					<input id="prefix" ng-change="Sprite.calcSize()" class="form-control input-sm" ng-model="Sprite.json.prefix">
+				</div> -->
+				<div class="form-group">
+					<label for="Sprite.json.datalessJSON.background">Unused background color</label>
+					<input id="Sprite.json.datalessJSON.background" wis-color-validate ng-change="Sprite.setBG();" class="form-control input-sm" ng-model="Sprite.json.datalessJSON.background" placeholder="Like any css color">
+				</div>
+				<div class="form-group">
+					<label for="Sprite.json.imageBackground">Image background color</label>
+					<input id="Sprite.json.imageBackground" wis-color-validate ng-change="Sprite.calcSize()" class="form-control input-sm" ng-model="Sprite.json.imageBackground" placeholder="Like any css color">
+				</div>
+				<!-- <div class="form-group">
+					<label for="prefix">Output format</label>
+					<select class="form-control input-sm" ng-change="Sprite.calcSize()" ng-model="Sprite.json.output">
+						<option>png</option>
+						<option>jpeg</option>
+						<option>webp</option>
+						<option value="webp/png">webp (async test with png fallback)</option>
+					</select>
+				</div> -->
+				<div class="form-group">
+					<label for="padding">Padding</label> <small>(example: 20 10 0 3)</small>
+					<input id="Sprite.padding" class="form-control input-sm" ng-model="Sprite.json.padding" wis-padding ng-change="Sprite.repack()" placeholder="like css without unit" ></p>
+				</div>
+				<div class="form-group">
+					<label for="padding">Margin</label> <small>(example: 20 10 0 3)</small>
+					<input id="Sprite.margin" class="form-control input-sm" ng-model="Sprite.json.margin" wis-padding ng-change="Sprite.repack()" placeholder="like css without unit" ></p>
+				</div>
+				<div class="form-group">
+					<b>Images can repeat: </b>
+					<input type="radio" ng-model="Sprite.json.canRepeat" ng-change="Sprite.repack()" value="x"> x
+					<input type="radio" ng-model="Sprite.json.canRepeat" ng-change="Sprite.repack()" value="y"> y
+				</div>
+				<!-- <div class="form-group">
+					<label>Every sprite image is Retina (2x):
+					<input type="checkbox" ng-change="Sprite.calcSize()" ng-model="Sprite.json.retina"></label>
+				</div> -->
+			</details>
+			<hr>
+
+			<div ng-init="Sprite.open={open:true}" ng-if="Sprite.object">
+				<p class="text-center" id="thumbnail"></p>
+				<!-- <label for="className">Class name</label>
+				<div class="input-group">
+					<span class="input-group-addon">{{Sprite.json.prefix}}</span>
+					<input id="className" class="form-control input-sm" ng-change="Sprite.calcSize()" ng-model="Sprite.object.className">
+				</div> -->
+				<div class="form-group"><br>
+					<label for="padding">Padding</label> <small>(example: 20 10 0 3)</small>
+					<input id="padding" class="form-control input-sm" ng-model="Sprite.object.pad" wis-padding ng-change="Sprite.repack()" placeholder="like css without unit" ></p>
+				</div>
+				<div class="form-group">
+					<label for="padding">Margin</label> <small>(example: 20 10 0 3)</small>
+					<input id="padding" class="form-control input-sm" ng-model="Sprite.object.mar" wis-padding ng-change="Sprite.repack()" placeholder="like css without unit" ></p>
+				</div>
+				<div class="form-group">
+					<label for="imgBackground">Background color</label> <small>(example: rgba(255,0,32,1))</small>
+					<input id="imgBackground" class="form-control input-sm" ng-change="Sprite.calcSize()" ng-model="Sprite.object.background" placeholder="Like css"></p>
+				</div>
+				<div class="form-group">
+					<label>Repeat {{Sprite.json.canRepeat}}:
+					<input type="checkbox" ng-change="Sprite.repack()" ng-model="Sprite.object.repeat"></label>
+				</div>
+				<p class="text-right"><button class="btn btn-xs btn-danger" ng-click="Sprite.object.remove(); Sprite.repack(); Sprite.object = false; Sprite.open=false;">Delete</button></p>
+			</div>
+		</div>
+		<div id="ad" class="text-center">
+			<a href="/download" class="btn btn-primary">Procced to download</a>
+			<!-- <footer class="text-center" ng-include="'/0.0.2/views/social-footer.html'"></footer> -->
+		</div>
+	</div>
+</div>

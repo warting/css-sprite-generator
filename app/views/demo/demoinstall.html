@@ -1,0 +1,48 @@
+<div class="col-lg-8">
+
+	<h2>Installing Sprite</h2>
+
+	<p>Introduction</p>
+
+	<h3>1. Upload your sprite</h3>
+	<p>Upload the css and images files to your website. They should be in or near the same directory as your CSS files.</p>
+
+	<h3>2. Include the sprite stylesheet</h3>
+
+	<!-- <p>We've already gone ahead and generated the code for you. All you have to do is link to the stylesheet in your HTML, like this:</p> -->
+
+	<pre ng-if="Sprite.output != 'webp/png'" class="prettyprint linenums"><%=
+		'<link rel="stylesheet" href="{{Sprite.name || \'sprite\'}}.min.css" charset="utf-8" />'
+	%></pre>
+	<pre ng-if="Sprite.output == 'webp/png'" class="prettyprint linenums"><%=
+		'<!-- This script most execute before the stylesheet --> \n'+
+		'<script>!function(A,e){A.className+=" js",e=new Image,e.onload=e.onerror=function(){A.className+=(e.width>0?" ":" no-")+"webp"},e.src="data:image/webp;base64,UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAwAAAARBxAR/Q9ERP8DAABWUDggGAAAABQBAJ0BKgEAAQAAAP4AAA3AAP7mtQAAAA=="}(document.documentElement)</script>\n'+
+		'<link rel="stylesheet" href="sprite/sprite.css" charset="utf-8" />'
+	%></pre>
+	<p><small ng-if="Sprite.output == 'webp/png'">(The asynchronous javascript is necessary not to load both png and webp image)</small></p>
+
+	<h3>3. Test</h3>
+	<p>Getting Sprites to work in all browsers can be tricky. Use the information to the right if you find that the sprite aren't loading in a particular browser.</p>
+
+</div>
+<div class="col-lg-4">
+	<h3>Troubleshooting<br>Sprite Problems</h3>
+	<p>Having trouble getting your Sprite to load in your new website? Here are some tips to sort out what might be the problem.</p>
+
+	<h4>Sprite is not showing in any browser</h4>
+
+	<p>This sounds like you need to work on the plumbing. You either did not upload the sprite to the correct directory, or you did not link the sprite properly in the CSS. If you've confirmed that all this is correct and you still have a problem, take a look at your .htaccess file and see if requests are getting intercepted.</p>
+
+	<h4>WebP is not loading</h4>
+
+	<p>The most common problem here is that you are serving the sprite from an IIS server. IIS refuses to serve files that have unknown MIME types. If that is the case, you must set the MIME type for WEBP to "image/webp" in the server settings. Follow <a href="http://technet.microsoft.com/library/cc725608(v=ws.10).aspx">these instructions from Microsoft</a> if you need help.</p>
+
+	<h4 ng-if="Sprite.output == 'webp'">Sprite not loading in some browsers</h4>
+
+	<p ng-if="Sprite.output == 'webp'">The primary reason for this failure may be that you only have one output format (webp) it's only working in some <a href="http://caniuse.com/#feat=webp">browser</a> consider <a href="#/about">editing</a> this sprite and change output format to png or atleast add it as a fallback option</p>
+
+	<h4>Console warning</h4>
+	"Resource interpreted as Image but transferred with MIME type audio/unknown".<br>
+	Adding the mimetype in .htaccess can solve the problem <code>AddType image/webp webp</code>
+</div>
+

@@ -1,0 +1,58 @@
+[class^="{{=it.prefix}}"]{
+	background-image: url({{=it.getName()}}{{? it.output == "webp" }}.webp{{??}}.png{{?}});
+	background-repeat: no-repeat;
+	display: inline-block;
+	text-indent: -99999px;
+	overflow: hidden;
+}
+
+{{? it.output == "webp/png"}}
+/* Result pending */
+.js [class^="{{=it.prefix}}"]{
+	background-image: none;
+}
+/* No WebP not supported */
+.js.no-webp [class^="{{=it.prefix}}"] {
+	background-image: url("{{=it.getName()}}.png");
+}
+/* WebP supported */
+.js.webp [class^="{{=it.prefix}}"] {
+	background-image: url("{{=it.getName()}}.webp");
+}
+{{?}}
+
+{{? it.retina }}
+@media
+	only screen and (-webkit-min-device-pixel-ratio: 2),
+	only screen and (   min--moz-device-pixel-ratio: 2),
+	only screen and (     -o-min-device-pixel-ratio: 2/1),
+	only screen and (        min-device-pixel-ratio: 2),
+	only screen and (                min-resolution: 192dpi),
+	only screen and (                min-resolution: 2dppx) {
+	[class^="{{=it.prefix}}"]{
+		background-image: url(sprite-2x.png);
+		-webkit-background-size: {{= Sprite.width / 2}}px {{=Sprite.height / 2}}px;
+		-moz-background-size: {{= Sprite.width / 2}}px {{=Sprite.height / 2}}px;
+		background-size: {{= Sprite.width / 2}}px {{=Sprite.height / 2}}px;
+	}
+
+	{{? it.output == "webp/png"}}
+	/* No JS / WebP not supported */
+	.js.no-webp [class^="{{=it.prefix}}"]{
+		background-image: url("{{=it.getName()}}-2x.png");
+	}
+	/* WebP supported */
+	.js.webp [class^="{{=it.prefix}}"]{
+		background-image: url("{{=it.getName()}}-2x.webp");
+	}
+	{{?}}
+}
+{{?}}
+
+{{~it.datalessJSON.objects :file}}
+.{{=it.getClassName(file)}}{ height: {{= it.getHeight(file) }}px; width:{{= it.getWidth(file)}}px; background-position: {{= it.getPos(file) }}; }{{~}}
+
+.repeat{{=it.canRepeat.toUpperCase()}}{
+	{{? it.canRepeat == "x" }}width{{??}}height{{?}}: 100%;
+	background-repeat: repeat-{{=it.canRepeat}};
+}

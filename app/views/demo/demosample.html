@@ -1,0 +1,31 @@
+<div class="col-lg-4">
+	
+	<div class="bs-sidebar">
+		<ul class="nav bs-sidenav">
+			<li ng-init="$root.activeObj = $root.activeObj || object"
+				ng-repeat="object in Sprite.datalessJSON.objects | filter:{repeat:true} | limitTo:1"
+				class="active"><a>repeting items</a></li>
+			<li ng-repeat="object in Sprite.datalessJSON.objects | filter:{repeat:true} | orderBy:'className'"
+			><a href 
+				ng-focus="$root.activeObj = object"
+				ng-click="$root.activeObj = object">.{{Sprite.prefix}}{{object.className}}</a></li>
+
+			<li ng-init="$root.activeObj = $root.activeObj || object"
+				ng-repeat="object in Sprite.datalessJSON.objects | filter:{repeat:false} | limitTo:1"
+				class="active"><a>non repeting items</a></li>
+
+			<li ng-repeat="object in Sprite.datalessJSON.objects | filter:{repeat:false} | orderBy:'className'"
+			><a href
+				ng-focus="$root.activeObj = object"
+				ng-click="$root.activeObj = object">.{{Sprite.prefix}}{{object.className}}</a></li>
+		</ul>
+	</div>
+</div>
+
+<div class="col-lg-8">
+	<div class="text-center">
+		<pre class="prettyprint prettyprinted" style="display: inline-block;padding: 10px;"><span class="tag">&lt;i</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"{{Sprite.prefix}}{{activeObj.className}}<span ng-if="activeObj.repeat"> repeat{{Sprite.canRepeat | uppercase}}</span>"<span class="tag">&gt;&lt;/i&gt;</span></pre>
+	</div>
+
+	<p class="text-center"><i ng-class="repiClass()" class="{{Sprite.prefix}}{{activeObj.className}}"></i></p>
+</div>
