@@ -286,6 +286,14 @@ module.exports = function (grunt) {
 						dest: 'release/<%= pkg.version %>/js/lib/'
 					}
 				]
+			},
+			cname: {
+				files: [
+					{
+						src: ["app/CNAME"],
+						dest: 'release/CNAME'
+					}
+				]
 			}
 		},
 
