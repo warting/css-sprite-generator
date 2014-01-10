@@ -33,19 +33,19 @@
 	</div>
 </div>
 
-<div id="app" ng-class="{hover:!Sprite.json.datalessJSON.objects.length}">
-	<div id="workspace">
+<div id="app" class="flex-container" ng-class="{hover:!Sprite.json.datalessJSON.objects.length}">
+	<div id="workspace" class="flex-item flex-center-container">
 
 		<div ng-change="Sprite.onFileSelect();" id="dropzone" accept="image/*" wis-file multiple ng-model="Sprite.files"></div>
 
-		<div id="excanvas" ng-style="{width: Sprite.json.width+'px', height: Sprite.json.height+'px'}">
+		<div id="excanvas" class="flex-center" ng-style="{width: Sprite.json.width+'px', height: Sprite.json.height+'px'}">
 			<canvas object="Sprite.object" wis-sprite="Main.activeJson" sprite="Sprite.json"></canvas>
 			<span id="scale" title="Click and drag to scale"></span>
 		</div>
 
 	</div>
-	<div id="sidebar">
-		<div id="styles">
+	<div id="sidebar" class="flex-item flex-height-container">
+		<div id="styles" class="flex-height-item">
 			<details open>
 				<summary>Info</summary>
 				<p>dimension: {{Sprite.json.width}}x{{Sprite.json.height}}<br>
@@ -130,7 +130,7 @@
 				<p class="text-right"><button class="btn btn-xs btn-danger" ng-click="Sprite.object.remove(); Sprite.repack(); Sprite.object = false; Sprite.open=false;">Delete</button></p>
 			</div>
 		</div>
-		<div id="ad" class="text-center">
+		<div id="ad" class="text-center flex-height-item">
 			<a href="/download" class="btn btn-primary">Procced to download</a>
 			<!-- <footer class="text-center" ng-include="'/0.0.2/views/social-footer.html'"></footer> -->
 		</div>
