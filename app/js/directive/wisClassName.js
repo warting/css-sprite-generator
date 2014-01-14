@@ -18,7 +18,7 @@ app.directive('wisClassname', function() {
 
 			function validate(value) {
 
-				ctrl.$setValidity('space', value.indexOf(" ") == -1);
+				value && ctrl.$setValidity('space', value.indexOf(" ") == -1);
 
 				return value;
 			}
