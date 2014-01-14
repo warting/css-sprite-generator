@@ -65,7 +65,6 @@ app.directive("wisSprite", ["$q", "WebP", function($q, WebP) {
 
 		render: function(ctx) {
 
-
 			this.width = (this.repeat && sprite.canRepeat === "x") ? ctx.canvas.width : this.origwidth;
 			this.height = (this.repeat && sprite.canRepeat === "y") ? ctx.canvas.height : this.origheight;
 			var pad = this.pad || sprite.padding || [0,0,0,0];
@@ -144,126 +143,65 @@ app.factory("repack", ["$filter", "$q", function($filter, $q){
 
 
 
-	function packImages(images, width, height, repetAxis, callback) {
-		var rectangle;
-		var leftOvers = true;
-		var len = images.length;
-		var i, imgWidth, imgHeight, point, image;
-
-		while(leftOvers) {
-			leftOvers = false;
-
-			if(width < height) {
-				width += 1;
-			}
-			else {
-				height += 1;
-			}
-
-			rectangle = new win.packer.RectanglePacker(width, height);
-
-			for(i=0;i<len;i++){
-				image = images[i];
-				imgWidth = image.width;
-				imgHeight = image.height;
-
-				if(image.repeat && repetAxis === "x"){
-					imgWidth = image.width > width ? image.width : width;
-				}
-				if(image.repeat && repetAxis === "y"){
-					imgHeight = image.height > height ? image.height : height;
-				}
-
-				point = rectangle.findCoords(imgWidth, imgHeight);
-
-				if(point) {
-					image.x = point.x;
-					image.y = point.y;
-				}
-				else {
-					leftOvers = true;
-				}
-			}
-		}
-
-		var size = rectangle.getDimensions();
-		width=size.w;
-		height=size.h;
-
-		callback({
-			points: images.map(function(i){
-				return { left: i.x, top: i.y};
-			}),
-			dimensions: {
-				width: width,
-				height: height
-			}
-		});
-
-	}
 
 	function packer(canvas, sprite){
-		var deferred = $q.defer();
 
 		function mapper(obj) {
 			var pad = obj.pad || sprite.padding || [0,0,0,0];
 			var mar = obj.mar || sprite.margin || [0,0,0,0];
+
 			return {
-				width: obj.origwidth   + mar[1] + mar[3] + pad[1] + pad[3],
-				height: obj.origheight + mar[0] + mar[2] + pad[0] + pad[2],
-				repeat: obj.repeat
+				w: obj.origwidth  + mar[1] + mar[3] + pad[1] + pad[3],
+				h: obj.origheight + mar[0] + mar[2] + pad[0] + pad[2],
+				repeat: obj.repeat,
+				name: obj.name,
+				obj: obj
 			};
+
 		}
 
-		var objects = canvas.getObjects();
+		var deferred = $q.defer();
 
-		if(!objects.length){
-			canvas.setDimensions({width:200,height:200});
-			deferred.resolve();
-			angular.extend(sprite, {width:200,height:200});
-			return deferred.promise;
+		var blocks = canvas._objects.map(mapper);
+
+		var packer = new window.GrowingPacker(canvas.width, canvas.height, sprite.canRepeat);
+
+		packer.fit(blocks);
+
+		var len = blocks.length;
+
+		var block, obj, pad, mar;
+
+
+		while(len--){
+			block = blocks[len];
+			obj = block.obj;
+			pad = obj.pad || sprite.padding || [0,0,0,0];
+			mar = obj.mar || sprite.margin || [0,0,0,0];
+
+			obj.set({ top: block.fit.y, left: block.fit.x });
+
+			obj.left = block.fit.x + mar[3] + pad[3];
+			obj.top = block.fit.y + mar[0] + pad[0];
 		}
 
-		// Sorts the files first on pixel size then sorts on repeat
-		var files = $filter("orderBy")(objects, ["repeat", function(obj) {
-			// Calculates the total pixels (including padding and mar)
-			var size = mapper(obj);
-			return size.width * size.height;
-		}], true);
+		var dimension = packer.dimension;
 
+		canvas.setDimensions(dimension);
 
-		// Format a valid json for the packer api
-		var map = files.map(mapper);
-
-		packImages(map, canvas.width, canvas.height, sprite.canRepeat, function(response) {
-			canvas.setDimensions(response.dimensions);
-
-			response.points.forEach(function(point, index) {
-				var image = objects[objects.indexOf(files[index])];
-				var pad = image.pad || sprite.padding || [0,0,0,0];
-				var mar = image.mar || sprite.margin || [0,0,0,0];
-				image.set(point);
-				image.left = point.left + mar[3] + pad[3];
-				image.top = point.top + mar[0] + pad[0];
+		setTimeout(function() {
+			canvas.setDimensions(dimension);
+			canvas._objects.forEach(function(obj) {
+				obj.setCoords();
 			});
+			deferred.resolve();
+		},0);
 
-			setTimeout(function() {
-				canvas.setDimensions(response.dimensions);
-				var obj = canvas._objects;
-				var len = obj.length;
-				while(len--){
-					obj[len].setCoords();
-				}
-				deferred.resolve();
-			},0);
-
-			angular.extend(sprite, response.dimensions);
-			canvas.renderAll();
-		});
+        angular.extend(sprite, dimension);
+		canvas.renderAll();
 
 		return deferred.promise;
 	}
+
 	return packer;
 }]);
-
-
