@@ -1,4 +1,4 @@
-app.directive('wisDebounce', function($timeout) {
+app.directive('wisDebounce', ["$timeout", function($timeout) {
 	return {
 		restrict: 'A',
 		require: 'ngModel',
@@ -25,4 +25,4 @@ app.directive('wisDebounce', function($timeout) {
 		}
 
 	}
-});
+}]);
