@@ -15,7 +15,7 @@ app.directive('wisDebounce', function($timeout) {
 					scope.$apply(function() {
 						ngModelCtrl.$setViewValue(elm.val());
 					});
-				}, 150);
+				}, 200);
 			});
 			elm.bind('blur', function() {
 				scope.$apply(function() {
