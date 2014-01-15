@@ -1,0 +1,195 @@
+<!DOCTYPE html> <html><head><title>CSS Sprite</title><script>var Sprite = ___SPRITE___;</script><link href=https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/css/bootstrap.min.css rel=stylesheet><script>!function(A,e){A.className+=" js",e=new Image,e.onload=e.onerror=function(){A.className+=(e.width>0&&e.height>0?" ":" no-")+"webp"},e.src="data:image/webp;base64,UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAwAAAARBxAR/Q9ERP8DAABWUDggGAAAABQBAJ0BKgEAAQAAAP4AAA3AAP7mtQAAAA=="}(document.documentElement)</script><link href=___SPRITENAME___.css rel=stylesheet><script src=https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js></script><script src=https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular-route.min.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.6.0/ui-bootstrap.min.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js></script><style>body {
+	padding-top: 20px;
+}
+
+.footer {
+	border-top: 1px solid #eee;
+	margin-top: 40px;
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+	text-align: center;
+	background-color: transparent;
+}
+.jumbotron .btn {
+	font-size: 21px;
+	padding: 14px 24px;
+}
+
+/* Customize the nav-justified links to be fill the entire space of the .navbar */
+.repeatY{height: 600px !important;}
+.nav-justified {
+	background-color: #eee;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	margin-bottom: 30px;
+}
+.nav-justified > li > a {
+	margin-bottom: 0;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	color: #777;
+	font-weight: bold;
+	text-align: center;
+	border-bottom: 1px solid #d5d5d5;
+	background-color: #e5e5e5; /* Old browsers */
+	background-repeat: repeat-x; /* Repeat the gradient */
+	background-image: -moz-linear-gradient(top, #f5f5f5 0%, #e5e5e5 100%); /* FF3.6+ */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f5), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
+	background-image: -webkit-linear-gradient(top, #f5f5f5 0%,#e5e5e5 100%); /* Chrome 10+,Safari 5.1+ */
+	background-image: -o-linear-gradient(top, #f5f5f5 0%,#e5e5e5 100%); /* Opera 11.10+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+	background-image: linear-gradient(top, #f5f5f5 0%,#e5e5e5 100%); /* W3C */
+}
+.nav-justified > .active > a,
+.nav-justified > .active > a:hover,
+.nav-justified > .active > a:focus {
+	background-color: #ddd;
+	background-image: none;
+	box-shadow: inset 0 3px 7px rgba(0,0,0,.15);
+}
+.nav-justified > li:first-child > a {
+	border-radius: 5px 5px 0 0;
+}
+.nav-justified > li:last-child > a {
+	border-bottom: 0;
+	border-radius: 0 0 5px 5px;
+}
+
+
+/* First level of nav */
+.bs-sidenav {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-shadow: 0 1px 0 #fff;
+		background-color: #e5e5e5; /* Old browsers */
+	background-repeat: repeat-x; /* Repeat the gradient */
+	background-image: -moz-linear-gradient(top, #f5f5f5 0%, #e5e5e5 200%); /* FF3.6+ */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f5), color-stop(200%,#e5e5e5)); /* Chrome,Safari4+ */
+	background-image: -webkit-linear-gradient(top, #f5f5f5 0%,#e5e5e5 200%); /* Chrome 10+,Safari 5.1+ */
+	background-image: -o-linear-gradient(top, #f5f5f5 0%,#e5e5e5 200%); /* Opera 11.10+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+	background-image: linear-gradient(top, #f5f5f5 0%,#e5e5e5 200%); /* W3C */
+	border-radius: 5px;
+}
+
+/* All levels of nav */
+.bs-sidebar .nav > li > a {
+	display: block;
+	color: #716b7a;
+	padding: 5px 20px;
+}
+.bs-sidebar .nav > li > a:hover,
+.bs-sidebar .nav > li > a:focus {
+	text-decoration: none;
+	background-color: #e5e3e9;
+	border-right: 1px solid #dbd8e0;
+}
+.bs-sidebar .nav > .active > a,
+.bs-sidebar .nav > .active:hover > a,
+.bs-sidebar .nav > .active:focus > a {
+	font-weight: bold;
+	color: #563d7c;
+	background-color: transparent;
+	/*border-right: 1px solid #563d7c;*/
+}
+
+.bs-sidebar .nav > .active > a, .bs-sidebar .nav > .active:hover > a, .bs-sidebar .nav > .active:focus > a {
+	font-weight: bold;
+	color: #563d7c;
+	background-color: transparent;
+	/*border-right: 1px solid #563d7c;*/
+}
+
+
+
+@media (min-width: 768px) {
+	.nav-justified {
+		max-height: 52px;
+	}
+	.nav-justified > li > a {
+		border-left: 1px solid #fff;
+		border-right: 1px solid #d5d5d5;
+	}
+	.nav-justified > li:first-child > a {
+		border-left: 0;
+		border-radius: 5px 0 0 5px;
+	}
+	.nav-justified > li:last-child > a {
+		border-radius: 0 5px 5px 0;
+		border-right: 0;
+	}
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+	/* Remove the padding we set earlier */
+	.masthead,
+	.marketing,
+	.footer {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+.linenums li{
+	list-style-type: decimal;
+}
+pre {
+	tab-size: 4;
+	white-space:nowrap;
+	overflow: scroll;
+}
+code{white-space: normal;}
+[ng-click]{
+	cursor: pointer;
+}
+iframe{border:0;}</style><body ng-app=wis><div class=container ng-controller=foo><div class=masthead><h3 class=text-muted>Sprite</h3><ul class="nav nav-justified"><li ng-class="at('/about')"><a href=#/about>About</a></li><li ng-class="at('/samples')"><a href=#/samples>Samples</a></li><li ng-class="at('/installation')" onclick=setTimeout(PR.prettyPrint,0)><a href=#/installation>Installation</a></li></ul></div><div ng-switch=path><div class=row ng-switch-when=/about><div class=jumbotron><h1>Congratz!</h1><p class=lead>You have just made a new Sprite! I recomend you save this <a href=#/about>{{Sprite.name || 'sprite'}}.html</a> file incase you lost one or another assets.<br>This contains the JSON-state from when you built this sprite, and it's needed to reconstruct this sprite.<br><br><br><br></p><p><a class="btn btn-lg btn-success" id=edit>Edit this sprite</a></p></div></div><div class=row ng-switch-when=/samples><div class=col-lg-4><div class=bs-sidebar><ul class="nav bs-sidenav"><li ng-init="$root.activeObj = $root.activeObj || object" ng-repeat="object in Sprite.datalessJSON.objects | filter:{repeat:true} | limitTo:1" class=active><a>repeting items</a></li><li ng-repeat="object in Sprite.datalessJSON.objects | filter:{repeat:true} | orderBy:'className'"><a href="" ng-focus="$root.activeObj = object" ng-click="$root.activeObj = object">.{{Sprite.prefix}}{{object.className}}</a></li><li ng-init="$root.activeObj = $root.activeObj || object" ng-repeat="object in Sprite.datalessJSON.objects | filter:{repeat:false} | limitTo:1" class=active><a>non repeting items</a></li><li ng-repeat="object in Sprite.datalessJSON.objects | filter:{repeat:false} | orderBy:'className'"><a href="" ng-focus="$root.activeObj = object" ng-click="$root.activeObj = object">.{{Sprite.prefix}}{{object.className}}</a></li></ul></div></div><div class=col-lg-8><div class=text-center><pre class="prettyprint prettyprinted" style="display: inline-block;padding: 10px"><span class=tag>&lt;i</span><span class=pln> </span><span class=atn>class</span><span class=pun>=</span><span class=atv>"{{Sprite.prefix}}{{activeObj.className}}<span ng-if=activeObj.repeat> repeat{{Sprite.canRepeat | uppercase}}</span>"<span class=tag>&gt;&lt;/i&gt;</span></span></pre></div><p class=text-center><i ng-class=repiClass() class={{Sprite.prefix}}{{activeObj.className}}></i></p></div></div><div class=row ng-switch-when=/installation><div class=col-lg-8><h2>Installing Sprite</h2><p>Introduction</p><h3>1. Upload your sprite</h3><p>Upload the css and images files to your website. They should be in or near the same directory as your CSS files.</p><h3>2. Include the sprite stylesheet</h3><pre ng-if="Sprite.output != 'webp/png'" class="prettyprint linenums">&lt;link rel=&quot;stylesheet&quot; href=&quot;{{Sprite.name || &#39;sprite&#39;}}.min.css&quot; charset=&quot;utf-8&quot; /&gt;</pre><pre ng-if="Sprite.output == 'webp/png'" class="prettyprint linenums">&lt;!-- This script most execute before the stylesheet --&gt; 
+&lt;script&gt;!function(A,e){A.className+=&quot; js&quot;,e=new Image,e.onload=e.onerror=function(){A.className+=(e.width&gt;0?&quot; &quot;:&quot; no-&quot;)+&quot;webp&quot;},e.src=&quot;data:image/webp;base64,UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAwAAAARBxAR/Q9ERP8DAABWUDggGAAAABQBAJ0BKgEAAQAAAP4AAA3AAP7mtQAAAA==&quot;}(document.documentElement)&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;sprite/sprite.css&quot; charset=&quot;utf-8&quot; /&gt;</pre><p><small ng-if="Sprite.output == 'webp/png'">(The asynchronous javascript is necessary not to load both png and webp image)</small></p><h3>3. Test</h3><p>Getting Sprites to work in all browsers can be tricky. Use the information to the right if you find that the sprite aren't loading in a particular browser.</p></div><div class=col-lg-4><h3>Troubleshooting<br>Sprite Problems</h3><p>Having trouble getting your Sprite to load in your new website? Here are some tips to sort out what might be the problem.</p><h4>Sprite is not showing in any browser</h4><p>This sounds like you need to work on the plumbing. You either did not upload the sprite to the correct directory, or you did not link the sprite properly in the CSS. If you've confirmed that all this is correct and you still have a problem, take a look at your .htaccess file and see if requests are getting intercepted.</p><h4>WebP is not loading</h4><p>The most common problem here is that you are serving the sprite from an IIS server. IIS refuses to serve files that have unknown MIME types. If that is the case, you must set the MIME type for WEBP to "image/webp" in the server settings. Follow <a href="http://technet.microsoft.com/library/cc725608(v=ws.10).aspx">these instructions from Microsoft</a> if you need help.</p><h4 ng-if="Sprite.output == 'webp'">Sprite not loading in some browsers</h4><p ng-if="Sprite.output == 'webp'">The primary reason for this failure may be that you only have one output format (webp) it's only working in some <a href="http://caniuse.com/#feat=webp">browser</a> consider <a href=#/about>editing</a> this sprite and change output format to png or atleast add it as a fallback option</p><h4>Console warning</h4>"Resource interpreted as Image but transferred with MIME type audio/unknown".<br>Adding the mimetype in .htaccess can solve the problem <code>AddType image/webp webp</code> </div></div></div><div class=footer><span style="position: absolute"><iframe height=20 width=90 title=+1 src="http://apis.google.com/u/0/_/+1/fastbutton?usegapi=1&amp;bsv=o&amp;size=medium&amp;origin=https%3A%2F%2Fapis.google.com&amp;url=http%3A%2F%2Fcssspritegenerator.net%2F&amp;gsrc=3p&amp;jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.sv.0EOj73Vj4qo.O%2Fm%3D__features__%2Fam%3DEQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAItRSTPPB5OvFh7A2rU39xjsipckO2Gv9w#_methods=onPlusOne%2C_ready%2C_close%2C_open%2C_resizeMe%2C_renderstart%2Concircled%2Cdrefresh%2Cerefresh&amp;id=I14_1385984930861&amp;parent=https%3A%2F%2Fapis.google.com&amp;pfname=%2FI0_1385984860702&amp;rpctoken=35214345"></iframe><iframe height=20 width=110 title="Like this content on Facebook." src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fcssspritegenerator.net&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;appId=424013754367090"></iframe><iframe height=20 width=110 title="Twitter Tweet Button" src="http://platform.twitter.com/widgets/tweet_button.1384994725.html#_=1385985432489&amp;count=horizontal&amp;id=twitter-widget-12&amp;lang=en&amp;original_referer=https%3A%2F%2Fabout.twitter.com%2Fresources%2Fbuttons%23tweet&amp;size=m&amp;text=Css%20Sprite%20Generator&amp;url=http%3A%2F%2Fcssspritegenerator.net" class="twitter-share-button twitter-tweet-button twitter-count-horizontal"></iframe><iframe height=20 width=110 title=Flattr src="http://api.flattr.com/button/view/?uid=jimmy.warting&amp;button=compact&amp;url=http%3A%2F%2Fcssspritegenerator.net"></iframe></span> <p class=text-right>Powered by <a href=http://cssspritegenerator.net>Css Sprite Generator</a>. Designed by <a href=http://warting.se>W&auml;rting</a></p></div></div><script>function init(){
+	var ng = angular;
+	var doc = document;
+	var win = doc.getElementById("iframe").contentWindow;
+	ng.element(doc).on('click', function(event) {
+		event.target.id == "edit" &&
+
+		win.postMessage(ng.toJson({
+			action: "insertAndEdit",
+			Sprite: Sprite
+		}), "http://cssspritegenerator.net");
+
+	});
+}
+
+app = angular.module('wis', ['ngRoute']);
+app.controller('foo', ["$rootScope", "$location", function($rootScope, $location){
+
+	$rootScope.path = $location.path() || $location.path('/about');
+
+	$rootScope.Sprite = window.Sprite;
+
+	$rootScope.repiClass = function() {
+		$el = angular.element(document.getElementsByTagName("i")[0]);
+
+		$el.removeClass("repeatX");
+		$el.removeClass("repeatY");
+
+		$rootScope.activeObj.repeat && setTimeout(function() {
+			$el.addClass("repeat"+Sprite.canRepeat.toUpperCase());
+		},0);
+	};
+
+	$rootScope.at = function(path) {
+		return {active:path==$location.path()}
+	};
+
+	$rootScope.$watch(function() {
+		return $location.path();
+	}, function(newPath) {
+		$rootScope.path = newPath;
+	});
+
+}]);</script><iframe class=hidden src=http://cssspritegenerator.net/postmsg onload=init() id=iframe></iframe>
