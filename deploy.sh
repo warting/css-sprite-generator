@@ -12,6 +12,11 @@ if [ -d ../css-sprite-generator-release/ ]; then
   rm -Rf ../css-sprite-generator-release/
 fi
 
+if [ -d ./release/ ]; then
+  rm -Rf ./release/
+  grunt build
+fi
+
 git clone https://github.com/warting/css-sprite-generator.git ../css-sprite-generator-release
 cd ../css-sprite-generator-release/
 git checkout gh-pages
