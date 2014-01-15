@@ -122,55 +122,73 @@ Example:
 			var n, node, block, len = blocks.length;
 			var w = this.widest(blocks);
 			var h = this.highest(blocks);
-			var i = 3;
 			var maxW = 0;
 			var maxH = 0;
-
-			this.sort.now(blocks, this.sortMethod);
-
-			!blocks[len-1].repeat && i--;
+			var hasRepetedItems = blocks[len-1].repeat;
 
 			this.root = { x: 0, y: 0, w: w, h: h };
 
-			while (i--) {
+			// Repeated items get sorted last
+			// (read next comment below)
+			this.sort.now(blocks, this.sortMethod);
+
+			for (n = 0; n < len ; n++) {
+				block = blocks[n];
+
+				// When there is only repeatable items left
+				// the bTree locks one axis and sets all the
+				// remaining blocks to its widest or talest side
+				if(block.repeat){
+					block[this.canRepeat == "x" ? "w":"h"] = this.canRepeat == "x" ? maxW:maxH;
+					this.lock[this.canRepeat] = true;
+				}
+
+				if (node = this.findNode(this.root, block.w, block.h))
+					block.fit = this.splitNode(node, block.w, block.h);
+				else
+					block.fit = this.growNode(block.w, block.h);
+
+				if(maxH < block.fit.y + block.h){
+					maxH = block.fit.y + block.h;
+				}
+				if(maxW < block.fit.x + block.w){
+					maxW = block.fit.x + block.w
+				}
+
+				this.dimension = { width: maxW, height: maxH };
+			}
+
+			// Doing this process over again is necessary to move all
+			// the repeated items first
+			if(hasRepetedItems){
+
+				// Now sort the repeated items in the beginnig
+				this.sort.now(blocks, "_repeat");
+
+				// The bTree has already grown to its full potential
+				// so we set it to a fixed size
+				this.root = { x: 0, y: 0, w: maxW, h: maxH };
+
+				maxH = 0;
+				maxW = 0;
 
 				for (n = 0; n < len ; n++) {
 					block = blocks[n];
 
-					if(block.repeat){
-						block[this.canRepeat == "x" ? "w":"h"] = this.canRepeat == "x" ? maxW:maxH;
-						this.lock[this.canRepeat] = true;
+					// This time we allways know it will return a fitting position (allways)
+					// so no need for growing checking :)
+					node = this.findNode(this.root, block.w, block.h);
+					block.fit = this.splitNode(node, block.w, block.h);
+
+					if(maxH < block.fit.y + block.h){
+						maxH = block.fit.y + block.h;
 					}
-
-					if (node = this.findNode(this.root, block.w, block.h))
-						block.fit = this.splitNode(node, block.w, block.h);
-
-					else
-						block.fit = this.growNode(block.w, block.h);
-
-					if (!block.repeat) {
-						if(maxH < block.fit.y + block.h){
-							maxH = block.fit.y + block.h;
-						}
-						if(maxW < block.fit.x + block.w){
-							maxW = block.fit.x + block.w
-						}
+					if(maxW < block.fit.x + block.w){
+						maxW = block.fit.x + block.w
 					}
 				}
-
-				if(i!=1){
-					this.dimension = { width: maxW, height: maxH };
-					maxW = 0;
-					maxH = 0;
-				}
-
-				this.root = { x: 0, y: 0, w: this.root.w, h: this.root.h };
-
-				i == 1 && this.sort.now(blocks, "_repeat");
+				this.dimension = { width: maxW, height: maxH };
 			}
-
-
-
 		},
 
 		findNode: function(root, w, h) {
@@ -210,17 +228,20 @@ Example:
 
 		growRight: function(w, h) {
 			var node;
+
 			this.root = {
 				used: true,
 				x: 0,
 				y: 0,
-				w: this.root.w + w,
+				w: this.dimension.width + w,
 				h: this.root.h,
 				down: this.root,
 				right: { x: this.root.w, y: 0, w: w, h: this.root.h }
 			};
-			if (node = this.findNode(this.root, w, h))
+			if (node = this.findNode(this.root, w, h)){
+				node.x = this.dimension.width;
 				return this.splitNode(node, w, h);
+			}
 			else
 				return null;
 		},
@@ -232,12 +253,14 @@ Example:
 				x: 0,
 				y: 0,
 				w: this.root.w,
-				h: this.root.h + h,
+				h: this.dimension.height + h,
 				down:  { x: 0, y: this.root.h, w: this.root.w, h: h },
 				right: this.root
 			};
-			if (node = this.findNode(this.root, w, h))
+			if (node = this.findNode(this.root, w, h)){
+				node.y = this.dimension.height;
 				return this.splitNode(node, w, h);
+			}
 			else
 				return null;
 		}
