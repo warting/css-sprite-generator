@@ -1,4 +1,5 @@
-<script>window.addEventListener("message", function(event){
+<script>
+	window.addEventListener("message", function(event){
 		var data = JSON.parse(event.data);
 
 		if(data.action && data.action == "insertAndEdit"){
@@ -8,4 +9,5 @@
 			top.location = location.href + "/../canvas";
 		}
 
-	});</script>
+	});
+</script>
