@@ -104,11 +104,11 @@ module.exports = function (grunt) {
 					debug: true,
 					middleware: function(req, res, next) {
 						var fs = (require("fs"));
-						var path = req._parsedUrl.path;
+						var path = req._parsedUrl.pathname;
 
 						if (path.split("/").pop().indexOf('.') === -1) {
 							var file = __dirname + "/release" + path + '.html';
-							console.log(file);
+							// console.log(file);
 							fs.exists(file, function(exists) {
 								if (exists){
 									res.end(grunt.file.read(file));
