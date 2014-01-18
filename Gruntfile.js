@@ -54,6 +54,20 @@ module.exports = function (grunt) {
 
 		// Scripts
 		uglify: {
+			embed: {
+				src: "app/embed/livereload-sprite.js",
+				dest: 'release/embed/livereload-sprite.js',
+				options: {
+					compress: {
+						global_defs: {
+							"DEBUG": false
+						},
+						dead_code: true
+					},
+					screwIe8: true,
+					exportAll: false
+				}
+			},
 			dev: {
 				src: ['app/js/bootstrap.js', 'app/js/**/*.js', '!app/js/lib/**/*.*'],
 				dest: 'release/<%= pkg.version %>/js/bootstrap-min.js',
@@ -305,8 +319,8 @@ module.exports = function (grunt) {
 		// Run: `grunt watch` from command line for this section to take effect
 		watch: {
 			javascript: {
-				files: ['app/js/bootstrap.js', 'app/js/**/*.js', '!app/js/lib/**/*.*'],
-				tasks: ['uglify:dev'],
+				files: ['app/embed/livereload-sprite.js', 'app/js/bootstrap.js', 'app/js/**/*.js', '!app/js/lib/**/*.*'],
+				tasks: ['uglify:dev', 'uglify:embed'],
 				options: { livereload: true }
 			},
 			image: {
@@ -339,7 +353,7 @@ module.exports = function (grunt) {
 
 
 	// Release Task
-	grunt.registerTask('build', ['clean:release', 'copy', 'ejs', 'uglify:prod', 'imagemin', 'autoprefixer', 'csso', 'htmlmin']);
+	grunt.registerTask('build', ['clean:release', 'copy', 'ejs', 'uglify:embed', 'uglify:prod', 'imagemin', 'autoprefixer', 'csso', 'htmlmin']);
 
 
 	/*

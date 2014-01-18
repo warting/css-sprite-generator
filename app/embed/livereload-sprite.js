@@ -1,33 +1,37 @@
-var scripts = document.getElementsByTagName("script");
-var selfScript = scripts[scripts.length - 1];
-var uuid = selfScript.getAttribute("data-uuid");
-var doc = document;
-var iframe = doc.createElement("iframe");
-var style = doc.createElement("link");
+!function(doc) {
+	"use strict";
 
-style.rel = "stylesheet";
+	var scripts = doc.getElementsByTagName("script");
+	var iframe = doc.createElement("iframe");
+	var style = doc.createElement("link");
+	var self = scripts[scripts.length - 1];
+	var uuid = self.getAttribute("data-uuid");
 
-iframe.src = "http://localhost:9001/download?uuid="+uuid;
-iframe.style.display = 'none';
-iframe.onload = showMeTheGoodStuff;
+	style.rel = "stylesheet";
 
-document.addEventListener('DOMContentLoaded', function() {
-	doc.body.appendChild(iframe);
+	iframe.src = "http://cssspritegenerator.net/download?uuid="+uuid;
+	iframe.style.display = 'none';
+	iframe.onload = showMeTheGoodStuff;
 
-	window.addEventListener("message", receiveMessage, false);
-});
+	doc.addEventListener('DOMContentLoaded', function() {
+		doc.body.appendChild(iframe);
+		doc.head.appendChild(style);
 
-function showMeTheGoodStuff () {
-	iframe.contentWindow.postMessage("showMeTheGoodStuff", "http://localhost:9001");
-};
+		window.addEventListener("message", receiveGoodStuff, false);
+	});
 
-function receiveMessage (event) {
-	if (event.origin !== "http://localhost:9001") return;
+	function showMeTheGoodStuff () {
+		iframe.contentWindow.postMessage("showMeTheGoodStuff", "http://cssspritegenerator.net");
+	};
 
-	var bgHref = URL.createObjectURL(event.data.background);
-	var href = URL.createObjectURL(new Blob([event.data.css.replace("____sprite____.png", bgHref)], {type: "text/css"}))
+	function receiveGoodStuff (event) {
+		if (event.origin !== "http://cssspritegenerator.net") return;
 
-	style.href = href;
-	doc.head.appendChild(style);
-	// event.source.postMessage("hi there yourself!  the secret response is: rheeeeet!", event.origin);
-}
+		style.href = URL.createObjectURL(
+			new Blob([
+				event.data.css.replace("____sprite____.png", URL.createObjectURL(event.data.background))
+			], {type: "text/css"})
+		);
+
+	}
+}(document);
