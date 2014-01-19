@@ -113,7 +113,7 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 			"Meaning: only you this browser can use this (as long as you don't clear you browser storage) " +
 			"It's only gona show you non-retina image in png format\n\n" +
 			"In production you sould download the sprite and put it on your own server",
-			'<script src="http://localhost:9001/embed/livereload-sprite.js" data-uuid="'+Sprite.uuid+'"></script>');
+			'<script src="http://cssspritegenerator.net/embed/livereload-sprite.js" data-uuid="'+Sprite.uuid+'"></script>');
 	};
 
 	Download.update = function(){
