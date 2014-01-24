@@ -49,10 +49,9 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 						background = dataURLtoBlob(canvasClone.toDataURL("",Sprite.quality));
 					}
 
-					Sprite.retina = false;
-
 					event.source.postMessage({
-						css: css(Sprite),
+						// since we only give them 1 background image to play with, we find all @media declarations in the CSS and remove them.
+						css: css(Sprite).replace(/@media[\s\S]*?\}\s*\}/, ""),
 						background: background
 					}, event.origin);
 
