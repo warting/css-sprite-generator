@@ -156,14 +156,8 @@ app.controller("SpriteCtrl", ["$q", "WebP", "$scope", "repack", function($q, Web
 	Sprite.calcSize = function() {
 		window._canvas.renderAll();
 
-		var dataUrl = window._canvas.toDataURL({
-			format: "png", //Sprite.json.output,
-			quality: Sprite.json.quality
-		});
+		Sprite.json.size = Math.round(_canvas.toDataURL().split(",")[1].replace(/=/g, "").length*3/4);
 
-		var blob = dataURLtoBlob(dataUrl);
-
-		Sprite.json.size = blob.size;
 		Sprite.json.datalessJSON = window._canvas.toDatalessObject();
 		localStorage.setItem(Sprite.json.uuid, angular.toJson(Sprite.json));
 		$scope.Main.activeJson = Sprite.json;
