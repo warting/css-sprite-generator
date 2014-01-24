@@ -1,6 +1,6 @@
 {
   "name": "css-sprite-generator",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Css Sprite Generator",
   "main": "Gruntfile.js",
   "scripts": {
