@@ -77,8 +77,8 @@ app.directive("wisSprite", ["$q", "WebP", function($q, WebP) {
 
 			var oldFill = ctx.fillStyle;
 			ctx.clearRect(area[0],area[1],area[2],area[3]);
+			ctx.fillStyle = "rgba(0,0,0,0)";
 			ctx.fillStyle = sprite.imageBackground;
-			ctx.fillStyle = this.background;
 			ctx.fillRect(area[0],area[1],area[2],area[3]);
 			ctx.fillStyle = oldFill;
 

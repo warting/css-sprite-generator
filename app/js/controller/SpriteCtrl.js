@@ -144,8 +144,12 @@ app.controller("SpriteCtrl", ["$q", "WebP", "$scope", "repack", function($q, Web
 			}
 
 			_canvas.renderOnAddRemove && _canvas.renderAll();
-
 			repack(win._canvas, Sprite.json);//.then(Sprite.calcSize);
+			Sprite.calcSize();
+
+			setTimeout(function() {
+				$scope.$apply();
+			},0);
 		});
 
 
