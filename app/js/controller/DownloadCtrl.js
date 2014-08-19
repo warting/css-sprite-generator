@@ -1,6 +1,6 @@
 "use strict";
 var lastEvent;
-app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$route", function($scope, WebP, $q, $http, $location, $route){
+app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$route", "aFilePicker", function($scope, WebP, $q, $http, $location, $route, aFilePicker){
 	var Download = this;
 	var Sprite = $scope.Main.activeJson;
 	var zip = new JSZip();
@@ -14,6 +14,8 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 	var uuid = $location.search().uuid
 	var embedded = uuid && win !== win.top;
 	var demo;
+
+	var downloads = [];
 
 	if(embedded){
 
@@ -120,27 +122,27 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 	};
 
 	Download.save = function(){
-		zip = new JSZip();
-
 		var downloadName = Sprite.getName(),
 		sCss = css(Sprite),
-		folder = zip.folder(downloadName),
+		folder = "/"+downloadName+"/",
+		add = function(name, data, type){
+			data = {};
+			data.relativePath = folder + name;
+			downloads.push(data);
+		},
 
-		base64, base64xs, canvasClone, blob;
+		base64 = 12, base64xs, canvasClone, blob;
 
 		Download.disabled = true;
 
-		_canvas._objects.forEach(function(file){
-			var blob = (file.origType === "image/png" && file.base64.split(";")[0] === "data:image/webp") ?
-			WebP.decode64(file.base64).toDataURL("image/png", 1):
-			file.base64;
 
-			folder.file("original files/"+file.name, base(blob), type);
+		_canvas._objects.forEach(function(file){
+			add("original files/"+file.name, {$dataURL: file.base64}, file.origType);
 		});
 
-		folder.file(downloadName+".css", cssHeading + sCss);
-		folder.file(downloadName+".min.css", cssHeading + minimizeData(sCss));
-		folder.file(downloadName+".html", demo.replace("___SPRITENAME___", downloadName).replace("___SPRITE___", localStorage[Sprite.uuid]));
+		add(downloadName+".css", {$text: cssHeading + sCss}, "text/css");
+		add(downloadName+".min.css", {$text: cssHeading + minimizeData(sCss)}, "text/css");
+		add(downloadName+".html", {$text: demo.replace("___SPRITENAME___", downloadName).replace("___SPRITE___", localStorage[Sprite.uuid])}, "text/html");
 
 		base64 = base(_canvas.toDataURL({
 			quality: Sprite.quality
@@ -157,67 +159,63 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 
 			if(Sprite.output == "webp/png"){
 				if(Sprite.retina){
-					folder.file(downloadName+".png", base64xs, type);
-					folder.file(downloadName+"-2x.png", base64, type);
+					add(downloadName+".png", {$base64: base64xs}, "image/png");
+					add(downloadName+"-2x.png", {$base64: base64}, "image/png");
 				} else{
-					folder.file(downloadName+".png", base64, type);
+					add(downloadName+".png", {$base64: base64}, "image/png");
 				}
 			}
 
 			if(Sprite.retina){
-				$q.all([
-					WebP.encode64(base64),
-					WebP.encode64(base64xs)
-					]).then(function(results){
-						base64 = base(results[0].data);
-						base64xs = base(results[1].data);
-
-						folder.file(downloadName+".webp", base64xs, type);
-						folder.file(downloadName+"-2x.webp", base64, type);
-						save();
-					});
-				} else {
-					WebP.encode64(base64).then(function(result) {
-						folder.file(downloadName+".webp", base(result.data), type);
-						save();
-					});
-				}
+				$q.all({
+					base64: WebP.encode64(base64),
+					base64xs: WebP.encode64(base64xs)
+				}).then(function(result){
+					add(downloadName+".webp", {$dataURL: result.base64xs}, "image/webp");
+					add(downloadName+".webp", {$dataURL: result.base64}, "image/webp");
+					save();
+				});
 			} else {
-				if(Sprite.retina){
-					folder.file(downloadName+".png", base64xs, type);
-					folder.file(downloadName+"-2x.png", base64, type);
-				} else {
-					folder.file(downloadName+".png", base64, type);
-				}
-
-				save();
+				WebP.encode64(base64).then(function(result) {
+					add(downloadName+".webp", {$dataURL: base64}, "image/webp");
+					save();
+				});
 			}
-		};
+		} else {
+			if(Sprite.retina){
+				add(downloadName+".png", {$base64: base64xs}, "image/png");
+				add(downloadName+"-2x.png", {$base64: base64}, "image/png");
+			} else {
+				add(downloadName+".png", {$base64: base64}, "image/png");
+			}
+			save();
+		}
+	};
 
 
-		canvasReady.promise.then(function(){
-			Sprite.datalessJSON.objects = _canvas._objects;
-			var background = URL.createObjectURL(dataURLtoBlob(_canvas.toDataURL()));
+	canvasReady.promise.then(function(){
+		Sprite.datalessJSON.objects = _canvas._objects;
+		var background = URL.createObjectURL(dataURLtoBlob(_canvas.toDataURL()));
 
-			var backupPrefix = Sprite.prefix;
-			var backupOutput = Sprite.output;
-			var backupName = Sprite.name;
-			var backupRetina = Sprite.retina;
+		var backupPrefix = Sprite.prefix;
+		var backupOutput = Sprite.output;
+		var backupName = Sprite.name;
+		var backupRetina = Sprite.retina;
 
-			Sprite.prefix = "x-in";
-			Sprite.output = "png";
-			Sprite.retina = false;
-			Sprite.name = "____sprite____";
+		Sprite.prefix = "x-in";
+		Sprite.output = "png";
+		Sprite.retina = false;
+		Sprite.name = "____sprite____";
 
-			Download.css = css(Sprite).replace("____sprite____.png", background);
+		Download.css = css(Sprite).replace("____sprite____.png", background);
 
-			Sprite.prefix = backupPrefix;
-			Sprite.output = backupOutput;
-			Sprite.name = backupName;
-			Sprite.retina = backupRetina;
+		Sprite.prefix = backupPrefix;
+		Sprite.output = backupOutput;
+		Sprite.name = backupName;
+		Sprite.retina = backupRetina;
 
-			internal = false;
-		});
+		internal = false;
+	});
 
 
 	/*
@@ -237,24 +235,23 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 			}, 0);
 		};
 	});
-*/
+	*/
 
-function minimizeData( content ) {
-	return content
-	.replace( /\/\*(?:(?!\*\/)[\s\S])*\*\/|[\r\n\t]+/g, '' )
-	.replace( /(\s)*:(\s)*/g, ':' )
-	.replace( / {2,}/g, ' ' )
-	.replace( / ([{:}]) /g, '$1' )
-	.replace( /([;,]) /g, '$1' )
-	.replace( / !/g, '!' );
-}
+	function minimizeData( content ) {
+		return content
+		.replace( /\/\*(?:(?!\*\/)[\s\S])*\*\/|[\r\n\t]+/g, '' )
+		.replace( /(\s)*:(\s)*/g, ':' )
+		.replace( / {2,}/g, ' ' )
+		.replace( / ([{:}]) /g, '$1' )
+		.replace( /([;,]) /g, '$1' )
+		.replace( / !/g, '!' );
+	}
 
 
-function base(value){return value.split(",")[1];}
-function save(){
-	var filename = Sprite.getName()+".zip";
-	saveAs(zip.generate({type:"blob"}), filename);
-}
+	function base(value){return value.split(",")[1];}
+	function save(){
+		aFilePicker.save({files: downloads});
+	}
 
 
 }]);

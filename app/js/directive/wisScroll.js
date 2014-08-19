@@ -16,15 +16,17 @@ app.directive("wisScroll", function(){
 
 			$element.on('click', function (event) {
 				event.preventDefault();
+
 				var scrollTop = body.scrollTop,
-				to = (win.innerHeight || docElm.clientHeight || body.clientHeight) + 45 - scrollTop,
-				currentTime = 0,
-				animateScroll = function () {
-					currentTime += 20;
-					var val = easeInOutQuad(currentTime, scrollTop, to, time);
-					body.scrollTop = val;
-					currentTime < time && setTimeout(animateScroll, 20);
-				};
+					to = (win.innerHeight || docElm.clientHeight || body.clientHeight) + 45 - scrollTop,
+					currentTime = 0,
+					animateScroll = function () {
+						currentTime += 10;
+						var val = easeInOutQuad(currentTime, scrollTop, to, time);
+						scrollTo(0, val);
+						currentTime < time && setTimeout(animateScroll, 10);
+					};
+
 				animateScroll();
 			});
 		}

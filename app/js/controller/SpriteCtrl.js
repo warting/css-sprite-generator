@@ -60,6 +60,14 @@ app.controller("SpriteCtrl", ["$q", "WebP", "$scope", "repack", function($q, Web
 	query("#scale").on('mousedown', move);
 
 
+	Sprite.pickerOption = {
+		responseType: "dataURL",
+		maxFiles: 0,
+		mimeType: "image/*",
+		maxFileSize: 41943040, // 40 MB
+		minFileSize: 100
+	}
+
 	Sprite.setBG = function(){
 		window._canvas.backgroundColor = Sprite.json.datalessJSON.background;
 		Sprite.calcSize();
@@ -86,73 +94,48 @@ app.controller("SpriteCtrl", ["$q", "WebP", "$scope", "repack", function($q, Web
 		sameAspect: false
 	};
 
+	window.e=$q;
+
 	Sprite.repack = function(){
 		repack(window._canvas, Sprite.json).then(Sprite.calcSize);
 	};
 
 	Sprite.onFileSelect = function() {
 		var files = Sprite.files;
-		var defers = files.map($q.defer);
-		var promises = defers.map(function(defer) {
-			return defer.promise;
+		var promises = files.map(function(file){
+			return $q(function(resolve, reject){
+				var img = new Image;
+
+				img.src = file.$dataURL;
+				img.onload = function(){
+					resolve(new fabric.Sprite({
+						base64: file.$dataURL,
+						image: this,
+						name: file.name,
+						origType: file.type,
+						origSize: file.size
+					}));
+				};
+
+			});
 		});
-		var index = 0;
-		var reader = new FileReader;
-		var img = new Image;
-		var newObjects = [];
-
-		function imgOnload(){
-			var file = files[index];
-
-			var sprite = new fabric.Sprite({
-				base64: reader.result,
-				image: img,
-				name: file.name,
-				origType: file.type,
-				origSize: file.size
-			});
-
-			file.type === "image/png" && WebP.encode(file).then(function(result){
-				sprite.mimetype = "image/webp";
-				sprite.base64 = result.data;
-			});
-			newObjects.push(sprite);
-			defers[index].resolve(sprite);
-
-			img = new Image;
-			index++;
-			file = files[index];
-			file && reader.readAsDataURL(file);
-		}
-
-		reader.onload = function(){
-			img.src = reader.result;
-			img.onload = imgOnload;
-		};
-
-		reader.readAsDataURL(files[0]);
-
-
-
 
 		$q.all(promises).then(function(results) {
 
-			_canvas._objects.push.apply(_canvas._objects, newObjects);
+			_canvas._objects.push.apply(_canvas._objects, results);
 
-			for (var i = 0, length = newObjects.length; i < length; i++) {
-				_canvas._onObjectAdded(newObjects[i]);
+			for (var i = 0, length = results.length; i < length; i++) {
+				_canvas._onObjectAdded(results[i]);
 			}
 
 			_canvas.renderOnAddRemove && _canvas.renderAll();
-			repack(win._canvas, Sprite.json);//.then(Sprite.calcSize);
+			repack(win._canvas, Sprite.json);
 			Sprite.calcSize();
 
 			setTimeout(function() {
 				$scope.$apply();
-			},0);
+			},100);
 		});
-
-
 
 		Sprite.files = [];
 	};
@@ -174,4 +157,3 @@ app.controller("SpriteCtrl", ["$q", "WebP", "$scope", "repack", function($q, Web
 	});
 
 }]);
-

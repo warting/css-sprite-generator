@@ -5,4 +5,4 @@
 3. npm install
 4. grunt build
 5. grunt express watch
-6. open http://localhost:9001/ in browser (IE is not a browser)
+6. open http://localhost:9005/ in browser (IE is not a browser)

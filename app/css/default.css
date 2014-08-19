@@ -563,8 +563,41 @@ footer {
     animation: fadein 2s cubic-bezier(.76,-0.43,.06,.67);
 }
 
+dialog:not([open]){
+	display: none;
+}
+#aFilePicker::backdrop {
+	background: transparent;
+}
+#aFilePicker {
+	position: absolute;
+	z-index: 2147483647;
+	top: 51px;
+	left: 0;
+	right: 350px;
+	bottom: 0;
+	border: 0 none;
+	width: auto;
+	outline: 0;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+}
+
+#aFilePicker iframe {
+	width: 100%;
+	height: 100%;
+	border: 0 none;
+	outline: 0;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+}
+
+
 @keyframes fadein {
   0% { opacity: 0; transform: translateY(20px); }
   100% { opacity: 1; transform: translateY(0px); }
 }
+
 

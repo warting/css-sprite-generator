@@ -8,7 +8,7 @@ docElm = doc.documentElement,
 body = doc.body,
 arr = [],
 toString = {}.toString,
-app = angular.module("wis", ['ngRoute']);
+app = angular.module("wis", ["ngRoute", "aFilePicker"]);
 
 docElm.className = "";
 
@@ -36,15 +36,8 @@ function arrayFrom(arrayLike) {
 	return arr.slice.call(arrayLike);
 }
 
-app.run(["$templateCache", function($templateCache) {
-	var view = query("div[ng-view]");
-	$templateCache.put(view.attr("ng-view"), view.html());
-	view.attr("ng-view", "");
-}]);
-
-
 (function(o,a,m){
-	win.GoogleAnalyticsObject = 'ga';
+	win.GoogleAnalyticsObject = "ga";
 	win.ga = win.ga || function(){
 		(win.ga.q = win.ga.q || []).push(arguments);
     };
@@ -52,9 +45,9 @@ app.run(["$templateCache", function($templateCache) {
     a = doc.createElement(o),
 	m = doc.getElementsByTagName(o)[0];
 	a.async = 1;
-	a.src = '//www.google-analytics.com/analytics.js';
+	a.src = "//www.google-analytics.com/analytics.js";
 	m.parentNode.insertBefore(a,m);
-})('script');
+})("script");
 
-ga('create', 'UA-46794389-1', 'cssspritegenerator.net');
-ga('send', 'pageview');
+ga("create", "UA-46794389-1", "cssspritegenerator.net");
+ga("send", "pageview");

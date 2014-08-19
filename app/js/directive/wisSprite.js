@@ -149,7 +149,7 @@ app.factory("repack", ["$filter", "$q", function($filter, $q){
 		function mapper(obj) {
 			var pad = obj.pad || sprite.padding || [0,0,0,0];
 			var mar = obj.mar || sprite.margin || [0,0,0,0];
-
+			console.log(obj);
 			return {
 				w: obj.origwidth  + mar[1] + mar[3] + pad[1] + pad[3],
 				h: obj.origheight + mar[0] + mar[2] + pad[0] + pad[2],

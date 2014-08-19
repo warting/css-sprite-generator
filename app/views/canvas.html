@@ -10,6 +10,7 @@
 		<ul class="nav navbar-nav">
 			<li><a ng-click="Main.newUUID()">New sprite</a></li>
 			<li><a href="/mycanvas">Open</a></li>
+			<li><a ng-model="Sprite.files" ng-change="Sprite.onFileSelect()" a-file-picker="Sprite.pickerOption" href="#">aFilePicker</a></li>
 			<li><a ng-click="Main.deleteUUID(Main.activeUUID); Main.newUUID()">Delete</a></li>
 				<!-- <li class="dropdown">
 					<a href="#" dropdown-toggle>File&nbsp;<b class="caret"></b></a>
@@ -35,8 +36,6 @@
 
 <div id="app" class="flex-container" ng-class="{hover:!Sprite.json.datalessJSON.objects.length}">
 	<div id="workspace" class="flex-item flex-center-container">
-
-		<div ng-change="Sprite.onFileSelect();" id="dropzone" accept="image/*" wis-file multiple ng-model="Sprite.files"></div>
 
 		<div id="excanvas" class="flex-center" ng-style="{width: Sprite.json.width+'px', height: Sprite.json.height+'px'}">
 			<canvas object="Sprite.object" wis-sprite="Main.activeJson" sprite="Sprite.json"></canvas>
@@ -132,7 +131,6 @@
 		</div>
 		<div id="ad" class="text-center flex-height-item">
 			<a href="/download" class="btn btn-primary">Procced to download</a>
-			<!-- <footer class="text-center" ng-include="'/0.0.2/views/social-footer.html'"></footer> -->
 		</div>
 	</div>
 </div>

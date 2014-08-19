@@ -1,5 +1,10 @@
 <!DOCTYPE html><html itemscope itemtype="http://schema.org/Product" ng-class="Main.supports" class="no-js" lang="en" ng-app="wis" ng-controller="MainCtrl as Main"><head>
 
+	<!--[if lte IE 9]>
+		<meta http-equiv="refresh" content="0;url=http://browsehappy.com" />
+		<script>window.location="http://browsehappy.com"</script>
+	<![endif]-->
+
 	<meta charset="utf-8">
 	<meta name="description" content="Generate CSS (retina, webp) Sprites Instantly with CssSpriteGenerator.net">
 	<meta name="author" content="Jimmy Wärting">
@@ -15,10 +20,10 @@
 </head>
 <body>
 
-	<div ng-view="/<%= version %>/views/index.html" id="outer-frame"><%- include views/index.html %></div>
+	<div ng-view id="outer-frame"></div>
 
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-route.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.17/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.17/angular-route.min.js"></script>
 	<script src="/<%= version %>/js/lib/libwebp-0.2.0.min.js"></script>
 	<script src="/<%= version %>/js/lib/fabric.min.js"></script>
 	<script src="/<%= version %>/js/lib/jszip.js"></script>

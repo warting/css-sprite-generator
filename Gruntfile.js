@@ -112,7 +112,7 @@ module.exports = function (grunt) {
 		express: {
 			custom: {
 				options: {
-					port: 9001,
+					port: 9005,
 					bases: 'release',
 					livereload: false,
 					debug: true,
