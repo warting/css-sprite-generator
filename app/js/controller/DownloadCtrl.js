@@ -3,7 +3,6 @@ var lastEvent;
 app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$route", "aFilePicker", function($scope, WebP, $q, $http, $location, $route, aFilePicker){
 	var Download = this;
 	var Sprite = $scope.Main.activeJson;
-	var zip = new JSZip();
 	var type = {base64:true,binary:true};
 	var demoReady = $http.get("/"+version+"/views/demo");
 	var canvasReady = $q.defer();
