@@ -53,7 +53,7 @@ angular.module("aFilePicker", [])
 	var curr, len, arr;
 
 	function messageHandler(event) {
-		console.log(event);
+		console.log(event.data);
 		if(event.data.eventName == "aFilePicker::close") {
 
 			if(event.data.status == 200 || event.data.status == 204){
@@ -63,7 +63,42 @@ angular.module("aFilePicker", [])
 				} catch(e){
 					aFilePicker.removeAttribute('open');
 				}
-				defered.resolve(event.data.detail);
+
+				function read(emit, id){
+					this.emit = emit;
+					this.id = id;
+
+					return this;
+				};
+
+				read.prototype.start = function() {
+					this.emit({
+						detail: {
+							id: this.id,
+							range: "bytes=0-0,3-3",
+							accept: "file,blob,arraybuffer;q=0.8",
+							onabort: "",
+							onload: "read_1::load",
+							onloadend: "",
+							onloadstart: "",
+							onerror: "",
+							ontimeout: ""
+						},
+						eventName: "aFilePicker::read",
+						version: "v1"
+					});
+
+				};
+
+				var sources = event.data.detail.map(function(source){
+					source.getFile = (new read(emit, source.id));
+
+					delete source.id;
+					return source;
+				});
+
+				sources[0].getFile.start();
+				defered.resolve(sources);
 			}
 
 		};
@@ -146,6 +181,8 @@ angular.module("aFilePicker", [])
 			instace(option);
 		}
 
+		aFileDialog.sandbox = "allow-same-origin allow-top-navigation allow-forms allow-popups allow-scripts allow-pointer-lock";
+
 		disable_scroll();
 
 		return defered.promise;
@@ -178,3 +215,5 @@ angular.module("aFilePicker", [])
 }]);
 
 }();
+
+// allow-same-origin allow-top-navigation allow-forms allow-popups allow-scripts allow-pointer-lock
