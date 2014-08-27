@@ -71,12 +71,12 @@ angular.module("aFilePicker", [])
 					return this;
 				};
 
-				read.prototype.start = function() {
+				read.prototype.start = function(range, readAs) {
 					this.emit({
 						detail: {
 							id: this.id,
-							range: "0-",
-							readAs: "Blob",
+							range: range || "0-",
+							readAs: readAs || "Blob",
 							onabort: "",
 							onload: "write::load::"+this.id,
 							onloadend: "",
@@ -90,7 +90,7 @@ angular.module("aFilePicker", [])
 				};
 
 				var sources = event.data.detail.map(function(source){
-					source.getFile = (new read(emit, source.id));
+					window.e = source.getFile = (new read(emit, source.id));
 
 					delete source.id;
 					return source;
