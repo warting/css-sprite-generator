@@ -53,7 +53,7 @@ angular.module("aFilePicker", [])
 	var curr, len, arr;
 
 	function messageHandler(event) {
-		console.log(event.data);
+		console.log(event);
 		if(event.data.eventName == "aFilePicker::close") {
 
 			if(event.data.status == 200 || event.data.status == 204){
@@ -75,16 +75,15 @@ angular.module("aFilePicker", [])
 					this.emit({
 						detail: {
 							id: this.id,
-							range: "bytes=0-0,3-3",
-							accept: "file,blob,arraybuffer;q=0.8",
+							range: "0-",
+							readAs: "Blob",
 							onabort: "",
-							onload: "read_1::load",
+							onload: "write::load::"+this.id,
 							onloadend: "",
 							onloadstart: "",
-							onerror: "",
-							ontimeout: ""
+							onerror: ""
 						},
-						eventName: "aFilePicker::read",
+						eventName: "aFilePicker::FileReader",
 						version: "v1"
 					});
 
