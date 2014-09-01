@@ -50,10 +50,21 @@ angular.module("aFilePicker", [])
 	    window.onmousewheel = document.onmousewheel = null;
 	}
 
-	var curr, len, arr;
+	// window.Source = Source;
+
+	var hash = {}, curr, len, arr, id=0;
+
+	function nextUID(){
+		return id++;
+	}
 
 	function messageHandler(event) {
-		console.log(event);
+		if(typeof event.data.eventName === 'number'){
+			hash[event.data.eventName](event.data.detail);
+			delete hash[event.data.eventName];
+			return
+		}
+
 		if(event.data.eventName == "aFilePicker::close") {
 
 			if(event.data.status == 200 || event.data.status == 204){
@@ -64,39 +75,33 @@ angular.module("aFilePicker", [])
 					aFilePicker.removeAttribute('open');
 				}
 
-				function read(emit, id){
-					this.emit = emit;
+				function Read(id){
 					this.id = id;
-
-					return this;
 				};
 
-				read.prototype.start = function(range, readAs) {
+				Read.prototype.emit = emit;
+
+				Read.prototype.start = function(readAs, range, cb) {
+					var callbackId = nextUID()
+					hash[callbackId] = cb;
 					this.emit({
 						detail: {
 							id: this.id,
 							range: range || "0-",
 							readAs: readAs || "Blob",
-							onabort: "",
-							onload: "write::load::"+this.id,
-							onloadend: "",
-							onloadstart: "",
-							onerror: ""
+							onload: callbackId
 						},
-						eventName: "aFilePicker::FileReader",
-						version: "v1"
+						eventName: "aFilePicker::FileReader"
 					});
-
 				};
 
 				var sources = event.data.detail.map(function(source){
-					window.e = source.getFile = (new read(emit, source.id));
-
+					source.getFile = (new Read(source.id));
+					window.e = source;
 					delete source.id;
 					return source;
 				});
 
-				sources[0].getFile.start();
 				defered.resolve(sources);
 			}
 
@@ -216,3 +221,16 @@ angular.module("aFilePicker", [])
 }();
 
 // allow-same-origin allow-top-navigation allow-forms allow-popups allow-scripts allow-pointer-lock
+
+// 260051086
+// 108626005
+
+// 5C:F8:A1:B4:3C:C0 android-8b916...
+// AC:CA:54:00:70:15 AC:CA:54:00:70:15
+// 10:DD:B1:CB:90:7C BUDDLEJA
+// 00:25:00:4E:C1:06 JIMMYS-MBP
+// C0:9F:42:5D:05:08 SarahWagsiPhone
+// A4:D1:D2:82:5E:A5 Sarahs-iPad
+// 9C:20:7B:69:2D:31 Users-iPhone
+// 4C:ED:DE:92:2E:94 USER-DATOR
+// 84:38:38:DB:6A:1E android-c3a43...
