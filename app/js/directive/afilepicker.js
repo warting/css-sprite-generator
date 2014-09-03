@@ -82,8 +82,9 @@ angular.module("aFilePicker", [])
 				Read.prototype.emit = emit;
 
 				Read.prototype.start = function(readAs, range, cb) {
-					var callbackId = nextUID()
+					var callbackId = nextUID();
 					hash[callbackId] = cb;
+
 					this.emit({
 						detail: {
 							id: this.id,
