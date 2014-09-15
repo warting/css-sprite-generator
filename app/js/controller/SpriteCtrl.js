@@ -104,19 +104,20 @@ app.controller("SpriteCtrl", ["$q", "WebP", "$scope", "repack", function($q, Web
 		var files = Sprite.files;
 		var promises = files.map(function(file){
 			return $q(function(resolve, reject){
-				var img = new Image;
+				file.getFile.start('DataURL', '0-', function(res){
+					var img = new Image;
+					img.src = res;
 
-				img.src = file.$dataURL;
-				img.onload = function(){
-					resolve(new fabric.Sprite({
-						base64: file.$dataURL,
-						image: this,
-						name: file.name,
-						origType: file.type,
-						origSize: file.size
-					}));
-				};
-
+					img.onload = function(){
+						resolve(new fabric.Sprite({
+							base64: res,
+							image: this,
+							name: file.name,
+							origType: file.type,
+							origSize: file.size
+						}));
+					};
+				});
 			});
 		});
 

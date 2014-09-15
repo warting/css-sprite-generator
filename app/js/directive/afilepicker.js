@@ -98,7 +98,6 @@ angular.module("aFilePicker", [])
 
 				var sources = event.data.detail.map(function(source){
 					source.getFile = (new Read(source.id));
-					window.e = source;
 					delete source.id;
 					return source;
 				});

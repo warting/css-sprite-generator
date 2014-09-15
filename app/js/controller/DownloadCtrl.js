@@ -125,15 +125,14 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 		sCss = css(Sprite),
 		folder = "/"+downloadName+"/",
 		add = function(name, data, type){
-			data = {};
 			data.relativePath = folder + name;
+			data.type = type;
 			downloads.push(data);
 		},
 
 		base64 = 12, base64xs, canvasClone, blob;
 
 		Download.disabled = true;
-
 
 		_canvas._objects.forEach(function(file){
 			add("original files/"+file.name, {$dataURL: file.base64}, file.origType);
@@ -254,3 +253,4 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 
 
 }]);
+
