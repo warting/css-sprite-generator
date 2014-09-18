@@ -14,7 +14,7 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 	var embedded = uuid && win !== win.top;
 	var demo;
 
-	var downloads = [];
+	var downloads;
 
 	if(embedded){
 
@@ -121,6 +121,7 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 	};
 
 	Download.save = function(){
+		downloads = [];
 		var downloadName = Sprite.getName(),
 		sCss = css(Sprite),
 		folder = "/"+downloadName+"/",
