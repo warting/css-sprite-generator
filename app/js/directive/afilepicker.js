@@ -1,3 +1,5 @@
+(function(a){function f(b,c){var d=a.createEvent("Event");d.initEvent(b,!0,!1);c.dispatchEvent(d)}function g(d){a[c.enabled]=a[b.enabled];a[c.element]=a[b.element];f(c.events.change,d.target)}function h(a){f(c.events.error,a.target)}var b,e,d={w3:{enabled:"fullscreenEnabled",element:"fullscreenElement",request:"requestFullscreen",exit:"exitFullscreen",events:{change:"fullscreenchange",error:"fullscreenerror"}},webkit:{enabled:"webkitIsFullScreen",element:"webkitCurrentFullScreenElement",request:"webkitRequestFullScreen",exit:"webkitCancelFullScreen",events:{change:"webkitfullscreenchange",error:"webkitfullscreenerror"}},moz:{enabled:"mozFullScreen",element:"mozFullScreenElement",request:"mozRequestFullScreen",exit:"mozCancelFullScreen",events:{change:"mozfullscreenchange",error:"mozfullscreenerror"}},ms:{enabled:"msFullscreenEnabled",element:"msFullscreenElement",request:"msRequestFullscreen",exit:"msExitFullscreen",events:{change:"MSFullscreenChange",error:"MSFullscreenError"}}},c=d.w3;for(e in d)if(d[e].enabled in a){b=d[e];break}c.enabled in a||!b||(a.addEventListener(b.events.change,g,!1),a.addEventListener(b.events.error,h,!1),a[c.enabled]=a[b.enabled],a[c.element]=a[b.element],a[c.exit]=a[b.exit],Element.prototype[c.request]=function(){return this[b.request].apply(this,arguments)});return b})(document);
+
 !function(){
 
 angular.module("aFilePicker", [])
@@ -185,7 +187,7 @@ angular.module("aFilePicker", [])
 			instace(option);
 		}
 
-		aFileDialog.sandbox = "allow-same-origin allow-top-navigation allow-forms allow-popups allow-scripts allow-pointer-lock";
+		(screen.width < 800 || screen.height < 500) && aFileDialog.requestFullscreen();
 
 		disable_scroll();
 
@@ -219,18 +221,3 @@ angular.module("aFilePicker", [])
 }]);
 
 }();
-
-// allow-same-origin allow-top-navigation allow-forms allow-popups allow-scripts allow-pointer-lock
-
-// 260051086
-// 108626005
-
-// 5C:F8:A1:B4:3C:C0 android-8b916...
-// AC:CA:54:00:70:15 AC:CA:54:00:70:15
-// 10:DD:B1:CB:90:7C BUDDLEJA
-// 00:25:00:4E:C1:06 JIMMYS-MBP
-// C0:9F:42:5D:05:08 SarahWagsiPhone
-// A4:D1:D2:82:5E:A5 Sarahs-iPad
-// 9C:20:7B:69:2D:31 Users-iPhone
-// 4C:ED:DE:92:2E:94 USER-DATOR
-// 84:38:38:DB:6A:1E android-c3a43...
