@@ -274,7 +274,7 @@ module.exports = function (grunt) {
 				]
 			},
 			options: {
-				removeComments: true,
+				removeComments: false,
 				removeCommentsFromCDATA: true,
 				removeCDATASectionsFromCDATA: true,
 				collapseWhitespace: true,

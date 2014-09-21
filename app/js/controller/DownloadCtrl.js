@@ -170,8 +170,8 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 					base64: WebP.encode64(base64),
 					base64xs: WebP.encode64(base64xs)
 				}).then(function(result){
-					add(downloadName+".webp", {$dataURL: result.base64xs}, "image/webp");
-					add(downloadName+".webp", {$dataURL: result.base64}, "image/webp");
+					add(downloadName+".webp", {$dataURL: result.base64xs.data}, "image/webp");
+					add(downloadName+"-2x.webp", {$dataURL: result.base64.data}, "image/webp");
 					save();
 				});
 			} else {
@@ -238,12 +238,12 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 
 	function minimizeData( content ) {
 		return content
-		.replace( /\/\*(?:(?!\*\/)[\s\S])*\*\/|[\r\n\t]+/g, '' )
-		.replace( /(\s)*:(\s)*/g, ':' )
-		.replace( / {2,}/g, ' ' )
-		.replace( / ([{:}]) /g, '$1' )
-		.replace( /([;,]) /g, '$1' )
-		.replace( / !/g, '!' );
+			.replace( /\/\*(?:(?!\*\/)[\s\S])*\*\/|[\r\n\t]+/g, '' )
+			.replace( /(\s)*:(\s)*/g, ':' )
+			.replace( / {2,}/g, ' ' )
+			.replace( / ([{:}]) /g, '$1' )
+			.replace( /([;,]) /g, '$1' )
+			.replace( / !/g, '!' );
 	}
 
 
@@ -254,4 +254,3 @@ app.controller("DownloadCtrl", ["$scope", "WebP", "$q", "$http", "$location", "$
 
 
 }]);
-

@@ -157,4 +157,7 @@ app.controller("SpriteCtrl", ["$q", "WebP", "$scope", "repack", function($q, Web
 		query("#app").removeClass('hover');
 	});
 
+	!Sprite.json.datalessJSON.objects.length && setTimeout(function(){
+		query("#picker").triggerHandler("click");
+	});
 }]);

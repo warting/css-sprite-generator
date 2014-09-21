@@ -7,8 +7,8 @@ angular.module("aFilePicker", [])
 .service("aFilePicker", ["$q", function($q) {
 
 	var onlyPostMsgString = !function(a){try{postMessage({toString:function(){a=1}},"*")}catch(e){}return!a}(),
-		// origin = "https://afilepicker.eu01.aws.af.cm",
-		origin = "https://app.afilepicker.com",
+		origin = "https://afilepicker.eu01.aws.af.cm",
+		// origin = "https://app.afilepicker.com",
 		win = window,
 		doc = document,
 		usingMsgChannel = !!win.MessageChannel,
@@ -77,6 +77,10 @@ angular.module("aFilePicker", [])
 					aFilePicker.removeAttribute('open');
 				}
 
+				if(!Array.isArray(event.data.detail)) {
+					return defered.reject();
+				}
+
 				function Read(id){
 					this.id = id;
 				};
@@ -139,6 +143,7 @@ angular.module("aFilePicker", [])
 
 			emit = function (msg) {
 				msg.version = "v1";
+				console.log(msg)
 				mc.port1.postMessage(msg);
 			}
 		} else {

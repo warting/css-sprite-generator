@@ -10,7 +10,7 @@
 		<ul class="nav navbar-nav">
 			<li><a ng-click="Main.newUUID()">New sprite</a></li>
 			<li><a href="/mycanvas">Open</a></li>
-			<li><a ng-model="Sprite.files" ng-change="Sprite.onFileSelect()" a-file-picker="Sprite.pickerOption" href="#">aFilePicker</a></li>
+			<li><a id="picker" ng-model="Sprite.files" ng-change="Sprite.onFileSelect()" a-file-picker="Sprite.pickerOption" href="#">Add images</a></li>
 			<li><a ng-click="Main.deleteUUID(Main.activeUUID); Main.newUUID()">Delete</a></li>
 				<!-- <li class="dropdown">
 					<a href="#" dropdown-toggle>File&nbsp;<b class="caret"></b></a>

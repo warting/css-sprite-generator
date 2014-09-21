@@ -8,7 +8,7 @@ app.factory('WebP', ["$http", "$q", function($http, $q){
 	var execNext = function() {
 		var task = queue[0];
 		$http.post('https://warting-webp.p.mashape.com/', task.data, {
-			headers: {'X-Mashape-Authorization':'6fenynov1gvx968gscs0ptjx3pmbpi','Content-Type':undefined},
+			headers: {'X-Mashape-Key':'YT9CrbRFurmsh1wK0vMxAT3OAaipp1Ghp3MjsnPIAPRuXDeIae','Content-Type':undefined},
 			responseType: 'dataURL',
 			transformRequest: angular.identity
 		}).then(function(data) {
@@ -27,7 +27,7 @@ app.factory('WebP', ["$http", "$q", function($http, $q){
 		encode: function(blob) {
 			var fd = new FormData();
 			var config = {
-				headers: {'X-Mashape-Authorization':'6fenynov1gvx968gscs0ptjx3pmbpi','Content-Type':undefined},
+				headers: {'X-Mashape-Key':'YT9CrbRFurmsh1wK0vMxAT3OAaipp1Ghp3MjsnPIAPRuXDeIae','Content-Type':undefined},
 				responseType: 'dataURL',
 				transformRequest: angular.identity
 			};
